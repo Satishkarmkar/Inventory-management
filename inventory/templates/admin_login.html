@@ -1,0 +1,86 @@
+{% load static %}
+{% block body %}
+<html lang="en">
+
+<head>
+        <title>Inventory Management System|| Login Page</title><meta charset="UTF-8" />
+
+		<link rel="stylesheet" href="{% static 'admin/css/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'admin/css/bootstrap-responsive.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'admin/css/matrix-login.css' %}" />
+        <link href="{% static 'admin/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+function checkpass()
+{
+if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
+{
+alert('New Password and Confirm Password field does not match');
+document.changepassword.confirmpassword.focus();
+return false;
+}
+return true;
+}
+
+</script>
+    </head>
+    <body style = "background-image:url({% static 'images/inventory.jpg' %})">
+
+    <div style="padding-left: 15px; position :absolute ;  top : 15px">
+                    <a href="{% url 'index' %}" class=" btn btn-info" ><i class="icon-home"></i>  Back to Home</a>
+
+                </div>
+
+<br><br><br>
+        <div id="loginbox">
+            <form id="loginform" class="form-vertical" method="post">
+                {% csrf_token %}
+				 <div class="control-group normal_text"> <h3>Inventory</strong> <strong style="color: orange">System</strong></h3></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" placeholder="Username" name="username" required="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" placeholder="Password" name="password" required="true"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <center><input type="submit" class="btn btn-success" name="login" value="Sign In"></center>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+        <script src="{% static 'admin/js/jquery.min.js' %}"></script>
+        <script src="{% static 'admin/js/matrix.login.js' %}"></script>
+    </body>
+
+</html>
+{% ifequal error "no" %}
+<script>
+    alert('logged in successfully');
+    window.location=('{% url 'dashboard' %}');
+</script>
+{% endifequal %}
+{% ifequal error "yes" %}
+<script>
+    alert('Invalid Login Credentials,Try Again...');
+</script>
+{% endifequal %}
+
+{% endblock %}

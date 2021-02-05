@@ -1,0 +1,139 @@
+{% load static %}
+{% load custom_filters %}
+{% block body %}
+<html lang="en">
+<head>
+<title>Inventory Management System|| Cart</title>
+{% include 'cs.html' %}
+</head>
+<body>
+
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="cart.php" class="current">Products Cart</a> </div>
+    <h1>Products Cart</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+
+       <form method="post" class="form-horizontal" name="submit">
+           {% csrf_token %}
+            <div class="control-group">
+              <label class="control-label">Customer Name :</label>
+              <div class="controls">
+                <input type="text" class="span11" id="customername" name="customername" value="" required='true' />
+              </div>
+            </div>
+          <div class="control-group">
+              <label class="control-label">Customer Mobile Number :</label>
+              <div class="controls">
+                <input type="text" class="span11" id="mobilenumber" name="mobilenumber" value="" required='true' maxlength="10" pattern="[0-9]+"/>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Mode of payment :</label>
+              <div class="controls">
+                <input type="radio" class="span11" name="modepayment" value="cash" checked="true"> Cash
+             <input type="radio" class="span11" name="modepayment" value="card"> Card
+
+              </div>
+            </div>
+
+
+           <div class="text-center">
+                  <button class="btn btn-primary my-4" type="submit" name="submit">Submit</button>
+                </div>
+          </form>
+
+
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Products Cart</h5>
+          </div>
+
+          <div class="widget-content nopadding">
+         <table class="table table-bordered" style="font-size: 15px">
+              <thead>
+                <tr>
+                  <th style="font-size: 12px">S.NO</th>
+                  <th style="font-size: 12px">Product Name</th>
+                  <th style="font-size: 12px">Category Name</th>
+                   <th style="font-size: 12px">SubCategory Name</th>
+                  <th style="font-size: 12px">Brand Name</th>
+                  <th style="font-size: 12px">Model Number</th>
+                  <th style="font-size: 12px">Quantity</th>
+                  <th style="font-size: 12px">Price(per unit)</th>
+                  <th style="font-size: 12px">Total</th>
+                  <th style="font-size: 12px">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for i in cart %}
+
+                <tr class="gradeX">
+
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.productid.productname}}</td>
+                  <td>{{i.productid.categoryid.categoryname}}</td>
+                  <td>{{i.productid.subcategoryid.subcategoryname}}</td>
+                  <td>{{i.productid.brandid.brandname}}</td>
+                  <td>{{i.productid.modelnumber}}</td>
+                  <td>{{i.productqty}}</td>
+                  <td>{{i.productid.price}}</td>
+                   <td>{% multiply i.productqty i.productid.price %}</td>
+ <td><a href="{% url 'delete_cart' i.id %}" onclick="return confirm('Do you really want to Delete ?');"><i class="icon-trash"></i></a></td>
+                </tr>
+                {% endfor %}
+ <tr>
+                  <th colspan="7" style="text-align: center;color: red;font-weight: bold;font-size: 15px">  Grand Total</th>
+                  <th colspan="4" style="text-align: center;color: red;font-weight: bold;font-size: 15px">{{ total }}</th>
+                </tr>
+
+{% if cartcount == 0 %}
+
+  <tr>
+<td colspan="6" style="color:red; text-align:center"> No item found in cart</td>
+  </tr>
+{% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Footer-part-->
+{% include 'footer.html' %}
+<!--end-Footer-part-->
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.ui.custom.js' %}"></script>
+<script src="{% static 'admin/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.uniform.js' %}"></script>
+<script src="{% static 'admin/js/select2.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin/js/matrix.js' %}"></script>
+<script src="{% static 'admin/js/matrix.tables.js' %}"></script>
+</body>
+</html>
+
+
+{% ifequal error "no" %}
+<script>
+    alert("Invoice created successfully. Billing number is {{bn}}");
+	window.location=('{% url 'invoice' bn %}');
+</script>
+{% endifequal %}
+{% ifequal error "yes" %}
+<script>
+    alert('Something Went Wrong. Please try again');
+</script>
+{% endifequal %}
+{% endblock %}

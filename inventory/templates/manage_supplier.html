@@ -1,0 +1,90 @@
+{% load static %}
+{% block body %}
+<html lang="en">
+<head>
+<title>Inventory Management System|| Manage Products</title>
+{% include 'cs.html' %}
+</head>
+<body>
+
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="manage-product.php" class="current">Manage Products</a> </div>
+    <h1>Manage Products</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Manage Suppliers</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>S.NO</th>
+                  <th>Supplier Name</th>
+                  <th>Supplier Contact</th>
+                  <th>Supplier Address</th>
+                  <th>Supplier Email</th>
+                  <th>Category Name</th>
+                   <th>SubCategory Name</th>
+<!--                  <th>Brand Name</th>-->
+                  <th>Status</th>
+<!--                    <th>Creation Date</th>-->
+                  <th colspan="2">Action</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                 {% for i in supplier %}
+                <tr class="gradeX">
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.suppliername}}</td>
+                  <td>{{i.suppliermob}}</td>
+                  <td>{{i.supplieraddr}}</td>
+                  <td>{{i.supplieremail}}</td>
+                  <td>{{i.categoryid.categoryname}}</td>
+                  <td>{{i.subcategoryid.subcategoryname}}</td>
+<!--                  <td>{{i.brandid.brandname}}</td>-->
+                   {% if i.status == "1" %}
+
+                     <td>Active</td>
+{% else %}
+                    <td>Inactive</td>
+                   {% endif %}
+<!--                    <td>{{i.creationdate}}</td>-->
+                  <td class="center"><a href="{% url 'edit_supplier' i.id %}"><i class=" icon-edit"></i></a></td>
+                  <td><a href="{% url 'delete_supplier' i.id %}" onclick="return confirm('Do you really want to Delete ?');"><i class="icon-trash"></i></a></td>
+                </tr>
+               {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Footer-part-->
+{% include 'footer.html' %}
+<!--end-Footer-part-->
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.ui.custom.js' %}"></script>
+<script src="{% static 'admin/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.uniform.js' %}"></script>
+<script src="{% static 'admin/js/select2.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin/js/matrix.js' %}"></script>
+<script src="{% static 'admin/js/matrix.tables.js' %}"></script>
+</body>
+</html>
+{% endblock %}
+

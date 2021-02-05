@@ -1,0 +1,115 @@
+{% load static %}
+{% block body %}
+<html lang="en">
+<head>
+<title>Inventory Management System|| Dashboard</title>
+
+{% include 'cs.html' %}
+</head>
+<body>
+
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous">
+
+
+     <style>
+.glow {
+  font-size: 60px;
+  color: #fff;
+  text-align: center;
+  margin-top: 100px;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #FF6666, 0 0 40px #FF6666, 0 0 50px #FF6666, 0 0 60px #FF6666, 0 0 70px #FF6666;
+  }
+
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #4cae4c, 0 0 50px #4cae4c, 0 0 60px #4cae4c, 0 0 70px #4cae4c, 0 0 80px #e60073;
+  }
+}
+
+
+
+</style>
+
+
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+  </div>
+<!--End-breadcrumbs-->
+
+<!--Action boxes-->
+<br />
+  <div class="container-fluid">
+   <div class="widget-box widget-plain">
+      <div class="center">
+
+<ul class="quick-actions">
+
+
+        <li class="bg_lb"> <a href="{% url 'manage_brand' %}"><i class="icon-th"></i>
+         <span class="label label-important" style="margin-top:5%">{{bcount}}</span> Brands </a> </li>
+
+
+
+
+        <li class="bg_ly"> <a href="{% url 'manage_category' %}"> <i class="icon-list fa-3x"></i>
+          <span class="label label-success" style="margin-top:7%">{{ccount}}</span> Categories </a> </li>
+
+
+
+        <li class="bg_lo"> <a href="{% url 'manage_subcategory' %}">  <i class="icon-th"></i> <span class="label label--success" style="margin-top:7%">{{scount}} </span>&nbsp; Subcategories</a> </li>
+
+
+
+        <li class="bg_ls"> <a href="{% url 'manage_product' %}"> <i class="icon-list-alt"></i>
+
+         <span class="label label-success" style="margin-top:7%">{{pcount}}</span>  Products</a> </li>
+
+        <li class="bg_lg"> <a href="{% url 'manage_supplier' %}"> <i class="icon-ambulance"></i>
+
+         <span class="label label-success" style="margin-top:7%">{{suppcount}}</span> Suppliers</a> </li>
+
+        <li class="bg_lo"> <a href="{% url 'customer_detail' %}"> <i class="icon-user"></i>
+
+        <span class="label label--success" style="margin-top:4%">{{custcount}}</span> Customers</a> </li>
+
+      </ul>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+        </div>
+    </div>
+
+
+      </div>
+    </div>
+      <div class="container-fluid">
+          <div class="row-fluid">
+              <h4 class="glow">INVENTORY MANAGEMENT</h4><br>
+              <h4 class="glow">SYSTEM</h4>
+          </div>
+      </div>
+  </div>
+</div>
+{% include 'footer.html' %}
+
+{% include 'js.html' %}
+</body>
+</html>
+{% endblock %}

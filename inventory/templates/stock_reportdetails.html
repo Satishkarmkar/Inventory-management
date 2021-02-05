@@ -1,0 +1,89 @@
+{% load static %}
+{% load custom_filters %}
+{% block body %}
+<html lang="en">
+<head>
+<title>Inventory Management System|| Between Dates Report</title>
+{% include 'cs.html' %}
+</head>
+<body>
+
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="stock-report.php" class="current">Between Dates Report</a> </div>
+    <h1>Products Details</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+
+<h5 align="center" style="color:blue">Inventory Report from {{fd}} to {{td}}</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>S.NO</th>
+                  <th>Product Name</th>
+                  <th>Category Name</th>
+                   <th>SubCategory Name</th>
+                  <th>Brand Name</th>
+                  <th>Model Number</th>
+                  <th>Stock</th>
+                  <th>Remaining Stock</th>
+                  <th>Status</th>
+                    <th>CreationDate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in product %}
+                <tr class="gradeX">
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.productname}}</td>
+                  <td>{{i.categoryid.categoryname}}</td>
+                  <td>{{i.subcategoryid.subcategoryname}}</td>
+                  <td>{{i.brandid.brandname}}</td>
+                  <td>{{i.modelnumber}}</td>
+                  <td>{{i.stock}}</td>
+                   <td>{% remproduct i.id %}</td>
+                 {% if i.status == "1" %}
+
+                     <td>Active</td>
+{% else %}
+                    <td>Inactive</td>
+                   {% endif %}
+<td>{{i.creationdate}}</td>
+                </tr>
+
+{% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Footer-part-->
+{% include 'footer.html' %}
+<!--end-Footer-part-->
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.ui.custom.js' %}"></script>
+<script src="{% static 'admin/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.uniform.js' %}"></script>
+<script src="{% static 'admin/js/select2.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin/js/matrix.js' %}"></script>
+<script src="{% static 'admin/js/matrix.tables.js' %}"></script>
+</body>
+</html>
+{% endblock %}

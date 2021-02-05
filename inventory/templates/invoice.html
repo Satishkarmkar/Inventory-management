@@ -1,0 +1,123 @@
+{% load static %}
+{% load custom_filters %}
+{% block body %}
+<html lang="en">
+<head>
+<title>Inventory Management System|| Invoice</title>
+{% include 'cs.html' %}
+<script type="text/javascript">
+
+function print1(strid)
+{
+if(confirm("Do you want to print?"))
+{
+var values = document.getElementById(strid);
+var printing =
+window.open('','','left=0,top=0,width=550,height=400,toolbar=0,scrollbars=0,sta­?tus=0');
+printing.document.write(values.innerHTML);
+printing.document.close();
+printing.focus();
+printing.print();
+
+}
+}
+</script>
+</head>
+<body>
+
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="{% url 'dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="manage-category.php" class="current">Invoice</a> </div>
+    <h1>Invoice</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12" id="print2">
+
+        <h3 class="mb-4">Invoice #{{pid}}</h3>
+
+
+  <div class="table-responsive">
+    <table class="table align-items-center" width="100%" border="1">
+            <tr>
+<th>Customer Name:</th>
+<td> {{customer.customername}}  </td>
+<th>Customer Number:</th>
+<td> {{customer.mobileno}}  </td>
+</tr>
+
+<tr>
+<th>Mode of Payment:</th>
+<td colspan="3"> {{customer.modeofpayment}}  </td>
+
+</tr>
+</table>
+
+</div>
+
+
+
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Products Inventory</h5>
+          </div>
+          <div class="widget-content nopadding" width="100%" border="1">
+            <table class="table table-bordered data-table" style="font-size: 15px">
+              <thead>
+                <tr>
+                  <th style="font-size: 12px">S.NO</th>
+                  <th style="font-size: 12px">Product Name</th>
+                  <th style="font-size: 12px">Model Number</th>
+                  <th style="font-size: 12px">Quantity</th>
+                  <th style="font-size: 12px">Price(per unit)</th>
+                  <th style="font-size: 12px">Total</th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for i in cart %}
+
+                <tr>
+
+                 <td>{{forloop.counter}}</td>
+                  <td>{{i.productid.productname}}</td>
+                  <td>{{i.productid.modelnumber}}</td>
+                  <td>{{i.productqty}}</td>
+                  <td>{{i.productid.price}}</td>
+                   <td>{% multiply i.productqty i.productid.price %}</td>
+                </tr>
+                {% endfor %}
+ <tr>
+                  <th colspan="5" style="text-align: center;color: red;font-weight: bold;font-size: 15px">  Grand Total</th>
+                  <th colspan="4" style="text-align: center;color: red;font-weight: bold;font-size: 15px">{{ total }}</th>
+                </tr>
+              </tbody>
+            </table>
+             <p style="text-align: center; padding-top: 30px"><input type="button"  name="printbutton" value="Print" onclick="return print1('print2')"/></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Footer-part-->
+{% include 'footer.html' %}
+<!--end-Footer-part-->
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.ui.custom.js' %}"></script>
+<script src="{% static 'admin/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.uniform.js' %}"></script>
+<script src="{% static 'admin/js/select2.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin/js/matrix.js' %}"></script>
+<script src="{% static 'admin/js/matrix.tables.js' %}"></script>
+</body>
+</html>
+{% endblock %}

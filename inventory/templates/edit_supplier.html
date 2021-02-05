@@ -1,0 +1,145 @@
+{% load static %}
+{% block body %}
+<html lang="en">
+<head>
+<title>Inventory Management System|| Update Products</title>
+{% include 'cs.html' %}
+
+</head>
+<body>
+
+<!--Header-part-->
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="{% url 'dashboard' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <strong>Update Product</strong></div>
+  <h1>Update Product</h1>
+</div>
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>Update Supplier</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form method="post" class="form-horizontal" id="indexForm" data-subcategory-url="{% url 'ajax_load_subcategory' %}">
+              {% csrf_token %}
+
+           <div class="control-group">
+              <label class="control-label">Supplier Name :</label>
+              <div class="controls">
+                <input type="text" class="span11" name="suppname" id="suppname" value="{{supplier.suppliername}}" required='true'/>
+              </div>
+            </div>
+              <div class="control-group">
+              <label class="control-label">Supplier Contact :</label>
+              <div class="controls">
+                <input type="number" class="span11" name="suppmob" id="suppmob" value="{{supplier.suppliermob}}" required='true'/>
+              </div>
+            </div>
+              <div class="control-group">
+              <label class="control-label">Supplier Address :</label>
+              <div class="controls">
+                <input type="text" class="span11" name="suppaddr" id="suppaddr" value="{{supplier.supplieraddr}}" required='true'/>
+              </div>
+            </div>
+              <div class="control-group">
+              <label class="control-label">Supplier Email :</label>
+              <div class="controls">
+                <input type="email" class="span11" name="suppemail" id="suppemail" value="{{supplier.supplieremail}}" required='true'/>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Category :</label>
+              <div class="controls">
+                <select type="text" class="span11" name="category" id="category" onChange="getSubCat(this.value)" value="" required='true' />
+                   <option value="{{supplier.categoryid.id}}">{{supplier.categoryid.categoryname}}</option>
+                    {% for i in category %}
+                  <option value="{{i.id}}">{{i.categoryname}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Sub Category Name: :</label>
+              <div class="controls">
+                <select type="text" class="span11" name="subcategory" id="subcategory" value="" required='true' />
+                  <option value="{{supplier.subcategoryid.id}}">{{supplier.subcategoryid.subcategoryname}}</option>
+                </select>
+              </div>
+            </div>
+<!--            <div class="control-group">-->
+<!--              <label class="control-label">Brand Name: :</label>-->
+<!--              <div class="controls">-->
+<!--                <select type="text" class="span11" name="bname" id="bname" value="" required='true' />-->
+<!--                  <option value="{{product.brandid.id}}">{{product.brandid.brandname}}</option>-->
+<!--                   {% for b in brand %}-->
+<!--                  <option value="{{b.id}}">{{b.brandname}}</option>-->
+<!--                 {% endfor %}-->
+<!--                </select>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div class="control-group">
+              <label class="control-label">Status :</label>
+              <div class="controls">
+                  {% if supplier.status == "1" %}
+                <input type="checkbox"  name="status" id="status" value="1"  checked="true"/>
+                {% else %}
+                  <input type="checkbox" value='1' name="status" id="status" />
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success" name="submit">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+ </div>
+</div>
+{% include 'footer.html' %}
+{% include 'js.html' %}
+</body>
+</html>
+{% ifequal error "no" %}
+<script>
+    alert('Supplier has been updated.');
+    window.location=('{% url 'manage_supplier' %}');
+</script>
+{% endifequal %}
+{% ifequal error "yes" %}
+<script>
+    alert('Something Went Wrong. Please try again');
+</script>
+{% endifequal %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#category").change(function () {
+      var url = $("#indexForm").attr("data-subcategory-url");  // get the url of the `load_courses` view
+      var categoryId = $(this).val();  // get the selected programming ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'category': categoryId       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#subcategory").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
+
+{% endblock%}
